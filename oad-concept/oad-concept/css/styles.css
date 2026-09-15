@@ -12,6 +12,7 @@
   --color-navy: #404470;
 
   --font-main: "Outfit", sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;   /* try "Outfit", sans-serif here to compare */
 
   --space-page: clamp(1.25rem, 5vw, 4rem);  /* gap between content and screen edge */
 }
@@ -56,7 +57,9 @@ a {
 
 
 /* =========================================
-   3. HEADER
+   3. HEADER AND NAVIGATION
+   Desktop version first. The phone/tablet version
+   is in section 7 at the bottom.
    ========================================= */
 .site-header {
   position: absolute;   /* floats on top of the hero instead of pushing it down */
@@ -71,20 +74,94 @@ a {
   padding: 1.5rem var(--space-page);
 }
 
-.nav-links {
+.logo {
+  position: relative;
+  z-index: 20;   /* stays on top of the open mobile menu */
+}
+
+.menu-toggle {
+  display: none;   /* hidden on desktop */
+}
+
+.nav-list {
   display: flex;
-  gap: 2.5rem;
+  align-items: center;
+  gap: 0.25rem;
   list-style: none;
 }
 
-.nav-links a {
+.nav-item {
+  position: relative;   /* the dropdown positions itself relative to this */
+}
+
+/* .nav-link is used on both <a> links and <button>s, so it resets button styles */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.85rem;
+  border: 0;
+  background: none;
+  font: inherit;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.975rem;
   color: var(--color-text-soft);
+  cursor: pointer;
   transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-link:hover,
+.submenu-toggle[aria-expanded="true"] {
+  color: var(--color-text);
+}
+
+.chevron {
+  transition: transform 0.2s;
+}
+
+/* Flip the arrow when the dropdown is open */
+.submenu-toggle[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* The dropdown panel */
+.submenu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 15rem;
+  padding: 0.5rem;
+  list-style: none;
+  background: rgba(12, 13, 34, 0.94);
+  backdrop-filter: blur(12px);   /* blurs the video behind the panel */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+/* JavaScript sets aria-expanded="true" on the button; CSS reads it and shows the panel */
+.submenu-toggle[aria-expanded="true"] + .submenu {
+  display: block;
+}
+
+/* The last two dropdowns open towards the left so they don't go off screen */
+.nav-item:nth-last-child(-n+2) .submenu {
+  left: auto;
+  right: 0;
+}
+
+.submenu a {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--color-text-soft);
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.submenu a:hover {
+  background-color: rgba(255, 255, 255, 0.06);
   color: var(--color-text);
 }
 
@@ -137,6 +214,7 @@ a {
 }
 
 .hero h1 {
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: clamp(2.75rem, 7.5vw, 6.5rem);  /* min, preferred, max */
   line-height: 1;
@@ -226,12 +304,117 @@ a {
 
 
 /* =========================================
-   7. SMALL SCREENS
+   7. TABLETS AND PHONES
    Rules inside here only apply when the screen
-   is 720px wide or less (phones, small tablets).
+   is 1024px wide or less. The full navigation
+   no longer fits, so it becomes a menu.
    ========================================= */
-@media (max-width: 720px) {
-  .nav-links {
-    display: none;   /* temporary: we'll build a mobile menu later */
+@media (max-width: 1024px) {
+
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 20;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    background: rgba(7, 8, 24, 0.35);
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    cursor: pointer;
   }
+
+  /* Two lines drawn with CSS that turn into an X when the menu is open */
+  .menu-icon {
+    position: relative;
+    width: 1rem;
+    height: 0.6rem;
+  }
+
+  .menu-icon::before,
+  .menu-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background-color: currentColor;
+    transition: transform 0.25s, top 0.25s;
+  }
+
+  .menu-icon::before { top: 0; }
+  .menu-icon::after  { top: calc(100% - 1.5px); }
+
+  .menu-toggle[aria-expanded="true"] .menu-icon::before {
+    top: calc(50% - 0.75px);
+    transform: rotate(45deg);
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-icon::after {
+    top: calc(50% - 0.75px);
+    transform: rotate(-45deg);
+  }
+
+  /* The menu covers the whole screen */
+  .main-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    padding: 7rem var(--space-page) 3rem;
+    background-color: var(--color-bg);
+    overflow-y: auto;   /* scroll inside the menu if it's taller than the screen */
+  }
+
+  .menu-toggle[aria-expanded="true"] + .main-nav {
+    display: block;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    max-width: 36rem;
+  }
+
+  .nav-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link {
+    width: 100%;
+    justify-content: space-between;
+    padding: 1.1rem 0;
+    font-size: 1.35rem;
+    color: var(--color-text);
+  }
+
+  /* Dropdowns become simple lists that open underneath (an "accordion") */
+  .submenu,
+  .nav-item:nth-last-child(-n+2) .submenu {
+    position: static;
+    min-width: 0;
+    padding: 0 0 1rem;
+    background: none;
+    backdrop-filter: none;
+    border: 0;
+  }
+
+  .submenu a {
+    padding: 0.6rem 0;
+    font-size: 1.05rem;
+    white-space: normal;
+  }
+
+  .submenu a:hover {
+    background: none;
+  }
+}
+
+/* Stops the page behind the menu from scrolling while it's open */
+body.menu-open {
+  overflow: hidden;
 }
