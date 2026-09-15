@@ -133,8 +133,7 @@ a {
   min-width: 15rem;
   padding: 0.5rem;
   list-style: none;
-  background: rgba(12, 13, 34, 0.94);
-  backdrop-filter: blur(12px);   /* blurs the video behind the panel */
+  background: rgba(12, 13, 34, 0.97);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
 }
@@ -195,7 +194,7 @@ a {
 
 .hero-overlay {
   position: absolute;
-  inset: 0;
+  inset: -1px;   /* 1px bigger on every side, so no hairline gaps on scaled screens */
   z-index: 1;
   /* Gradients layered on top of each other:
      1. top edge, behind the navigation
@@ -269,42 +268,7 @@ a {
 
 
 /* =========================================
-   6. VIDEO PAUSE BUTTON
-   ========================================= */
-.video-toggle {
-  position: absolute;
-  right: var(--space-page);
-  bottom: clamp(3rem, 10vh, 6rem);
-  z-index: 2;
-
-  display: grid;
-  place-items: center;   /* centres the icon */
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(7, 8, 24, 0.35);
-  color: var(--color-text);
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.video-toggle:hover {
-  border-color: var(--color-text);
-}
-
-.video-toggle[hidden] {
-  display: none;
-}
-
-/* Show the pause icon while playing, the play icon while paused */
-.video-toggle .icon-play { display: none; }
-.video-toggle.is-paused .icon-play { display: block; }
-.video-toggle.is-paused .icon-pause { display: none; }
-
-
-/* =========================================
-   7. TABLETS AND PHONES
+   6. TABLETS AND PHONES
    Rules inside here only apply when the screen
    is 1024px wide or less. The full navigation
    no longer fits, so it becomes a menu.
@@ -399,7 +363,6 @@ a {
     min-width: 0;
     padding: 0 0 1rem;
     background: none;
-    backdrop-filter: none;
     border: 0;
   }
 
