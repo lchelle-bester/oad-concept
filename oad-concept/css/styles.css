@@ -59,7 +59,7 @@ a {
 /* =========================================
    3. HEADER AND NAVIGATION
    Desktop version first. The phone/tablet version
-   is in section 7 at the bottom.
+   is in section 8 at the bottom.
    ========================================= */
 .site-header {
   position: absolute;   /* floats on top of the hero instead of pushing it down */
@@ -166,7 +166,53 @@ a {
 
 
 /* =========================================
-   4. HERO
+   4. SKY
+   The hero and the impact numbers share one background
+   video. The video layer is "sticky": it pins itself to
+   the top of the screen for as long as .sky is on screen,
+   so the sky stays still while the sections scroll over it.
+
+   Careful: never put overflow: hidden on .sky. Any ancestor
+   with that property stops position: sticky working at all.
+   ========================================= */
+.sky {
+  position: relative;
+}
+
+.sky-media {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;   /* clips the video to one screenful */
+  z-index: 0;
+  background-color: var(--color-bg);   /* what you see before the poster loads */
+}
+
+/* The sticky layer above still takes up its own space in the layout,
+   so the content is pulled back up over it by exactly the same amount.
+   These two heights must always match. */
+.sky-content {
+  position: relative;
+  z-index: 2;
+  margin-top: -100vh;
+}
+
+/* Fades the sky into the solid page background at the end of the last
+   section, so whatever comes next starts on dark */
+.sky-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(6rem, 14vh, 10rem);
+  z-index: 1;
+  background: linear-gradient(to bottom, transparent, var(--color-bg) 85%);
+  pointer-events: none;   /* never blocks a click */
+}
+
+
+/* =========================================
+   5. HERO
    ========================================= */
 .hero {
   position: relative;
@@ -178,7 +224,6 @@ a {
   padding: 8rem var(--space-page) clamp(3rem, 10vh, 6rem);
 
   overflow: hidden;   /* anything bigger than the hero gets cut off */
-  background-color: var(--color-bg);
 }
 
 /* The video fills the whole hero, like a background image.
@@ -238,7 +283,79 @@ a {
 
 
 /* =========================================
-   5. BUTTONS
+   6. IMPACT NUMBERS
+   Sits on the same sky as the hero (see section 4).
+   ========================================= */
+.impact {
+  position: relative;
+  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(8rem, 18vh, 12rem);
+}
+
+/* Darkens the video behind the numbers. It starts at the same darkness as
+   the bottom of the hero overlay, so there is no visible seam between them.
+   inset: 0, not -1px: .impact doesn't clip its overflow like .hero does, so a
+   bigger overlay would stack on the hero's bottom edge (a dark line) and
+   stick out past the right edge (a horizontal scrollbar). */
+.impact-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to bottom,
+    rgba(7, 8, 24, 0.6) 0%,
+    rgba(7, 8, 24, 0.86) 35%,
+    rgba(7, 8, 24, 0.86) 100%);
+}
+
+.impact-content {
+  position: relative;   /* needed so z-index works */
+  z-index: 1;
+  max-width: 72rem;     /* left-aligned like the hero, not centred */
+}
+
+.impact-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.impact-years {
+  color: var(--color-accent);
+}
+
+/* The four numbers, with one thin line above the whole row */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   /* four equal columns, so the layout
+                                              never moves while the numbers count */
+  gap: 2.5rem 2rem;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding-top: clamp(2rem, 4vh, 3rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  list-style: none;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;   /* every digit the same width, so the
+                                           numbers don't jitter while counting */
+}
+
+.stat-label {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--color-text-soft);
+}
+
+
+/* =========================================
+   7. BUTTONS
    ========================================= */
 .button {
   display: inline-block;
@@ -268,7 +385,7 @@ a {
 
 
 /* =========================================
-   6. TABLETS AND PHONES
+   8. TABLETS AND PHONES
    Rules inside here only apply when the screen
    is 1024px wide or less. The full navigation
    no longer fits, so it becomes a menu.
@@ -374,6 +491,13 @@ a {
 
   .submenu a:hover {
     background: none;
+  }
+}
+
+/* Phones: the four numbers become a 2 by 2 grid */
+@media (max-width: 720px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

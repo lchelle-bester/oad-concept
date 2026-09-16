@@ -9,7 +9,7 @@
   <!-- Fonts from Google Fonts: Outfit (text) and Space Grotesk (headline) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -18,7 +18,7 @@
   <!-- HEADER: sits on top of the hero, transparent background -->
   <header class="site-header">
     <!-- The logo is the link to the home page -->
-    <a href="/" class="logo">
+    <a href="index.html" class="logo">
       <img src="assets/images/oad-symbol.png" alt="IAU Office of Astronomy for Development home" width="56" height="56">
     </a>
 
@@ -94,38 +94,89 @@
   </header>
 
   <main>
-    <!-- HERO: the first screen -->
-    <section class="hero">
 
-      <!-- Background video. It starts empty on purpose: js/main.js only adds
-           the video files on screens where it makes sense (see that file).
+    <!-- SKY: the hero and the impact numbers share one background video.
+         The video layer pins itself to the top of the screen while both
+         sections scroll over it, then fades into the page background. -->
+    <div class="sky">
+
+      <!-- The video layer. The video starts empty on purpose: js/main.js only
+           adds the video file on screens where it makes sense (see that file).
            Everyone else sees the poster image. -->
-      <video
-        class="hero-video"
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster="assets/video/milky-way-poster.jpg"
-        data-src="assets/video/milky-way.mp4"
-        aria-hidden="true">
-      </video>
-
-      <!-- Dark gradient between the video and the text, so the text stays readable -->
-      <div class="hero-overlay"></div>
-
-      <div class="hero-content">
-        <h1>Astronomy for a better world</h1>
-        <p class="hero-text">
-          Turning our knowledge of the universe into skills, inspiration and opportunities for people on Earth.
-        </p>
-        <div class="hero-actions">
-          <a href="#work" class="button button-primary">Explore our work</a>
-          <a href="https://astro4dev.org/cfp/" class="button button-secondary">Apply for funding</a>
-        </div>
+      <div class="sky-media">
+        <video
+          class="hero-video"
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="assets/video/milky-way-poster.jpg"
+          data-src="assets/video/milky-way.mp4"
+          aria-hidden="true">
+        </video>
       </div>
 
-    </section>
+      <!-- Dissolves the sky into the solid page background at the very bottom -->
+      <div class="sky-fade"></div>
+
+      <div class="sky-content">
+
+        <!-- HERO: the first screen -->
+        <section class="hero">
+
+          <!-- Dark gradient between the video and the text, so the text stays readable -->
+          <div class="hero-overlay"></div>
+
+          <div class="hero-content">
+            <h1>Astronomy for a better world</h1>
+            <p class="hero-text">
+              Turning our knowledge of the universe into skills, inspiration and opportunities for people on Earth.
+            </p>
+            <div class="hero-actions">
+              <a href="https://astro4dev.org/projects-search/" class="button button-primary">Explore our work</a>
+              <a href="https://astro4dev.org/cfp/" class="button button-secondary">Apply for funding</a>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- IMPACT: the proof, in four numbers. The finished numbers are written
+             here in the HTML, so the page is correct without JavaScript and screen
+             readers get the real values. js/main.js counts up to them. -->
+        <section class="impact" id="impact">
+
+          <!-- Darkens the video behind the numbers so the text stays readable -->
+          <div class="impact-overlay"></div>
+
+          <div class="impact-content">
+            <h2 class="impact-heading">
+              <span class="impact-years">15 years</span> of astronomy for development
+            </h2>
+
+            <ul class="stats">
+              <li class="stat">
+                <p class="stat-number" data-count>254</p>
+                <p class="stat-label">projects funded</p>
+              </li>
+              <li class="stat">
+                <p class="stat-number" data-count>114</p>
+                <p class="stat-label">countries</p>
+              </li>
+              <li class="stat">
+                <p class="stat-number" data-count data-decimals="1">2M+</p>
+                <p class="stat-label">people reached</p>
+              </li>
+              <li class="stat">
+                <p class="stat-number" data-count data-decimals="1">€1.5M+</p>
+                <p class="stat-label">granted to projects</p>
+              </li>
+            </ul>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
   </main>
 
   <!-- JavaScript goes last, so the page content loads first -->
