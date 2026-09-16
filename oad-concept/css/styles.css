@@ -9,7 +9,12 @@
   --color-accent: #E4A818;   /* amber */
   --color-green: #54A030;
   --color-purple: #846898;
+  --color-purple-light: #B49DC6;   /* purple tint, readable as text on dark */
   --color-navy: #404470;
+  --color-navy-light: #8F95D6;     /* navy tint, readable as text on dark */
+
+  --color-surface: #0F1128;         /* cards: a touch lighter than the page */
+  --color-surface-hover: #151838;
 
   --font-main: "Outfit", sans-serif;
   --font-heading: "Space Grotesk", sans-serif;   /* try "Outfit", sans-serif here to compare */
@@ -59,7 +64,7 @@ a {
 /* =========================================
    3. HEADER AND NAVIGATION
    Desktop version first. The phone/tablet version
-   is in section 8 at the bottom.
+   is in section 9 at the bottom.
    ========================================= */
 .site-header {
   position: absolute;   /* floats on top of the hero instead of pushing it down */
@@ -291,8 +296,11 @@ a {
   padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(8rem, 18vh, 12rem);
 }
 
-/* Darkens the video behind the numbers. It starts at the same darkness as
-   the bottom of the hero overlay, so there is no visible seam between them.
+/* Darkens the video behind the numbers. Its top edge must match the bottom
+   edge of the hero overlay exactly, or you see a change in brightness there:
+   1. the hero's bottom-left shadow, mirrored: same shape, anchored at the
+      top-left instead, so it carries on across the join and fades out below
+   2. an even darkening that starts at the hero's bottom darkness (0.6)
    inset: 0, not -1px: .impact doesn't clip its overflow like .hero does, so a
    bigger overlay would stack on the hero's bottom edge (a dark line) and
    stick out past the right edge (a horizontal scrollbar). */
@@ -300,16 +308,14 @@ a {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(to bottom,
-    rgba(7, 8, 24, 0.6) 0%,
-    rgba(7, 8, 24, 0.86) 35%,
-    rgba(7, 8, 24, 0.86) 100%);
+  background:
+    radial-gradient(ellipse 75% 80% at 0% 0%, rgba(7, 8, 24, 0.9) 0%, rgba(7, 8, 24, 0.55) 45%, transparent 100%),
+    linear-gradient(to bottom, rgba(7, 8, 24, 0.6) 0%, rgba(7, 8, 24, 0.86) 35%, rgba(7, 8, 24, 0.86) 100%);
 }
 
 .impact-content {
   position: relative;   /* needed so z-index works */
-  z-index: 1;
-  max-width: 72rem;     /* left-aligned like the hero, not centred */
+  z-index: 1;           /* no max-width: the heading lines up with the hero text */
 }
 
 .impact-heading {
@@ -332,6 +338,8 @@ a {
   grid-template-columns: repeat(4, 1fr);   /* four equal columns, so the layout
                                               never moves while the numbers count */
   gap: 2.5rem 2rem;
+  max-width: 72rem;
+  margin-inline: auto;  /* equal space left and right: centres the row */
   margin-top: clamp(2.5rem, 6vh, 4rem);
   padding-top: clamp(2rem, 4vh, 3rem);
   border-top: 1px solid rgba(255, 255, 255, 0.18);
@@ -355,7 +363,178 @@ a {
 
 
 /* =========================================
-   7. BUTTONS
+   7. WHAT WE DO
+   Three flagship cards on a solid background.
+   ========================================= */
+.work {
+  position: relative;
+  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(6rem, 14vh, 10rem);
+  background-color: var(--color-bg);
+}
+
+/* The orbit lines fill the section, behind everything else in it */
+.work-orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.work-content {
+  position: relative;   /* sits above the orbit lines */
+  z-index: 1;           /* no max-width: the heading lines up with the hero text */
+}
+
+.work-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.work-intro {
+  margin-top: 1rem;
+  max-width: 36rem;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  color: var(--color-text-soft);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 72rem;
+  margin-inline: auto;  /* equal space left and right: centres the row */
+  margin-top: clamp(3rem, 7vh, 4.5rem);
+  list-style: none;
+}
+
+/* Each programme's colours, set as variables on its list item.
+   Everything inside (and the phone thread drawn by the list item) reads them. */
+.card-astrotourism {
+  --card-line: var(--color-accent);
+  --card-text: var(--color-accent);
+}
+
+.card-mental-health {
+  --card-line: var(--color-navy);
+  --card-text: var(--color-navy-light);
+}
+
+.card-skills {
+  --card-line: var(--color-purple);
+  --card-text: var(--color-purple-light);
+}
+
+.card-item {
+  position: relative;   /* the phone thread positions itself relative to this */
+  display: flex;        /* lets the card inside stretch to the full row height */
+}
+
+.card {
+  position: relative;   /* the stretched link's invisible box fills this */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;     /* clips the photo to the rounded corners */
+  border-top: 3px solid var(--card-line);
+  border-radius: 1rem;
+  background-color: var(--color-surface);
+  transition: background-color 0.3s;
+}
+
+.card-photo {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;     /* keeps the hover zoom inside the photo frame */
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;    /* the photos are 3:2, so the sides get trimmed to fit 4:3 */
+  transition: transform 0.6s ease;
+}
+
+.card-body {
+  flex: 1;              /* fills the rest of the card, so "Explore" can sit at the bottom */
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.card-heading {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 1.9vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* STRETCHED LINK: only the heading is a real link, but its invisible ::after box
+   is stretched over the whole card (the nearest position: relative parent),
+   so clicking anywhere on the card follows the link */
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.card-tagline {
+  margin-top: 0.5rem;
+  font-weight: 400;
+  color: var(--card-text);
+}
+
+.card-text {
+  margin-top: 1rem;
+  color: var(--color-text-soft);
+}
+
+.card-explore {
+  margin-top: auto;     /* pushes it to the bottom, so it lines up across the cards */
+  padding-top: 1.5rem;
+  font-weight: 400;
+  color: var(--card-text);
+}
+
+/* Hover and keyboard focus: slightly brighter card, gentle photo zoom */
+.card:hover,
+.card:has(.card-link:focus-visible) {
+  background-color: var(--color-surface-hover);
+}
+
+.card:hover .card-photo img {
+  transform: scale(1.04);
+}
+
+/* When tabbing, outline the whole card instead of just the heading text.
+   :has() means "a card that contains a focused link". */
+.card:has(.card-link:focus-visible) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.card-link:focus-visible {
+  outline: none;
+}
+
+/* Nothing moves for people who have asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-photo img {
+    transition: none;
+  }
+
+  .card:hover .card-photo img {
+    transform: none;
+  }
+}
+
+
+/* =========================================
+   8. BUTTONS
    ========================================= */
 .button {
   display: inline-block;
@@ -385,23 +564,31 @@ a {
 
 
 /* =========================================
-   8. TABLETS AND PHONES
+   9. TABLETS AND PHONES
    Rules inside here only apply when the screen
    is 1024px wide or less. The full navigation
    no longer fits, so it becomes a menu.
    ========================================= */
 @media (max-width: 1024px) {
 
+  /* The Menu button stays pinned to the top-right of the screen while the page
+     scrolls, so the menu is always one tap away. position: fixed places it
+     relative to the screen, not the page. It starts lined up with the middle
+     of the logo: header padding (1.5rem) + half the logo (28px), then
+     translateY(-50%) moves it up by half its own height to centre it there. */
   .menu-toggle {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    position: relative;
+    position: fixed;
+    top: calc(1.5rem + 28px);
+    right: var(--space-page);
+    transform: translateY(-50%);
     z-index: 20;
     padding: 0.6rem 1.1rem;
     border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 999px;
-    background: rgba(7, 8, 24, 0.35);
+    background: rgba(12, 13, 34, 0.85);   /* solid enough to read over anything that scrolls under it */
     font: inherit;
     font-size: 0.95rem;
     color: var(--color-text);
@@ -491,6 +678,41 @@ a {
 
   .submenu a:hover {
     background: none;
+  }
+
+  /* What we do: no orbit drawing; the cards stack in one column */
+  .work-orbits {
+    display: none;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    max-width: 34rem;
+    gap: 4rem;   /* extra room for the thread between cards */
+  }
+
+  /* A short dashed thread up through the gap to the card above.
+     Every card except the first draws one ("+" means "directly after another"). */
+  .card-item + .card-item::before {
+    content: "";
+    position: absolute;
+    top: -4rem;
+    left: 50%;
+    height: 4rem;
+    border-left: 1.5px dashed rgba(255, 255, 255, 0.16);
+  }
+
+  /* ...with a small dot in the middle, in this (the next) card's colour */
+  .card-item + .card-item::after {
+    content: "";
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--card-text);
+    transform: translate(calc(-50% + 0.75px), -50%);   /* centre it on the line */
   }
 }
 

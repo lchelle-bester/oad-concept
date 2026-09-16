@@ -40,8 +40,8 @@
             <li><a href="https://astro4dev.org/cfp/">Apply for funding</a></li>
             <li><a href="https://astro4dev.org/projects-search/">Projects funded</a></li>
             <li><a href="https://astro4dev.org/themes/theme-1-sustainable-local-socio-economic-development-through-astronomy/astrotourism/">Flagship 1: Astrotourism</a></li>
-            <li><a href="https://astro4dev.org/themes/theme-2-celebrating-our-common-humanity-through-astronomy/astronomy-mental-health/">Flagship 2: Astronomy for mental health</a></li>
-            <li><a href="https://astro4dev.org/themes/theme-3-astronomy-knowledge-and-skills-for-development/flagship-project-3-astronomy-for-skills-development/">Flagship 3: Astro 4 Skills</a></li>
+            <li><a href="https://astro4dev.org/themes/theme-2-celebrating-our-common-humanity-through-astronomy/astronomy-mental-health/">Flagship 2: Astronomy for Mental Health</a></li>
+            <li><a href="https://astro4dev.org/themes/theme-3-astronomy-knowledge-and-skills-for-development/flagship-project-3-astronomy-for-skills-development/">Flagship 3: Astronomy for Skills</a></li>
             <li><a href="https://astro4dev.org/resources/">Resources</a></li>
             <li><a href="https://astro4dev.org/2026-recommended-projects/">2026 recommended projects</a></li>
           </ul>
@@ -133,7 +133,7 @@
               Turning our knowledge of the universe into skills, inspiration and opportunities for people on Earth.
             </p>
             <div class="hero-actions">
-              <a href="https://astro4dev.org/projects-search/" class="button button-primary">Explore our work</a>
+              <a href="#work" class="button button-primary">Explore our work</a>
               <a href="https://astro4dev.org/cfp/" class="button button-secondary">Apply for funding</a>
             </div>
           </div>
@@ -177,6 +177,89 @@
 
       </div>
     </div>
+
+    <!-- WHAT WE DO: the three flagship programmes, on a solid background (the sky
+         has faded out by here). Each card is one link: the heading's link is
+         "stretched" over the whole card in css/styles.css, so the card is clickable
+         but screen readers only hear the programme name as the link text. -->
+    <section class="work" id="work">
+
+      <!-- Orbit lines, inspired by the logo. Decorative, desktop only. They sit behind
+           the cards, so they show above the cards and through the gaps between them.
+           The viewBox is very wide and anchored in the middle (xMidYMin) because the
+           card row is centred at a fixed maximum width: this keeps the drawing lined up
+           with the cards at every desktop width.
+           The dashed orbit starts at the green dot and leaves through the left side;
+           the solid one crosses from the left side to the right side. -->
+      <svg class="work-orbits" viewBox="0 0 2560 1060" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.5">
+          <path d="M -60 900 C 800 800 1300 150 2620 90" vector-effect="non-scaling-stroke" />
+          <path d="M 1560 70 C 1450 400 1150 820 -60 1010" stroke-dasharray="6 8" vector-effect="non-scaling-stroke" />
+        </g>
+        <circle cx="1560" cy="70" r="4" fill="#54A030" />
+        <circle cx="1538" cy="130" r="4" fill="#E4A818" />
+        <circle cx="1501" cy="213" r="4" fill="#B49DC6" />
+        <circle cx="1795" cy="219" r="4" fill="#8F95D6" />
+      </svg>
+
+      <div class="work-content">
+        <h2 class="work-heading">What we do</h2>
+        <p class="work-intro">
+          Three flagship programmes that take approaches proven to work and help communities around the world adopt them.
+        </p>
+
+        <ul class="cards">
+          <li class="card-item card-astrotourism">
+            <article class="card">
+              <div class="card-photo">
+                <img src="assets/images/flagships/astrotourism.jpg" alt="A group of people on blankets and camping chairs under a starry sky, with the Milky Way arching over the hills." width="1200" height="800" loading="lazy">
+              </div>
+              <div class="card-body">
+                <h3 class="card-heading"><a class="card-link" href="https://astrotourism.astro4dev.org/">Astrotourism</a></h3>
+                <p class="card-tagline">The stars are the world's oldest attraction.</p>
+                <p class="card-text">
+                  Around 8 in 10 people live under light-polluted skies and can no longer see the Milky Way. We help communities turn dark skies into tourism that creates jobs and celebrates local culture.
+                </p>
+                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+              </div>
+            </article>
+          </li>
+
+          <li class="card-item card-skills">
+            <article class="card">
+              <div class="card-photo">
+                <img src="assets/images/flagships/skills.jpg" alt="Two smiling women at a large observatory telescope, one pointing up at the sky." width="1200" height="800" loading="lazy">
+              </div>
+              <div class="card-body">
+                <h3 class="card-heading"><a class="card-link" href="https://astro4dev.org/themes/theme-3-astronomy-knowledge-and-skills-for-development/flagship-project-3-astronomy-for-skills-development/">Astronomy for Skills</a></h3>
+                <p class="card-tagline">Using astronomy as a gateway to in-demand skills.</p>
+                <p class="card-text">
+                  Through hackathons, workshops and training, we teach programming, data science and machine learning that open pathways to careers in many fields.
+                </p>
+                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+              </div>
+            </article>
+          </li>
+
+          <li class="card-item card-mental-health">
+            <article class="card">
+              <div class="card-photo">
+                <img src="assets/images/flagships/mental-health.jpg" alt="The silhouette of a person pointing at a starry sky beside a telescope on a tripod." width="1200" height="800" loading="lazy">
+              </div>
+              <div class="card-body">
+                <h3 class="card-heading"><a class="card-link" href="https://mentalhealth.astro4dev.org/">Astronomy for Mental Health</a></h3>
+                <p class="card-tagline">The universe is vast. Sometimes, that helps.</p>
+                <p class="card-text">
+                  Together with mental health professionals and researchers, we're exploring how the night sky, free and open to everyone, can support wellbeing alongside traditional care.
+                </p>
+                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </div>
+
+    </section>
   </main>
 
   <!-- JavaScript goes last, so the page content loads first -->

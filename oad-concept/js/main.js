@@ -127,7 +127,7 @@ const statsRow = document.querySelector('.stats');
 
 if (statNumbers.length && statsRow && !prefersReducedMotion) {
 
-  const COUNT_DURATION = 1500;   // milliseconds
+  const COUNT_DURATION = 2000;   // milliseconds
 
   // Split the finished text into its parts, e.g. "€1.5M+" -> "€", 1.5, "M+".
   // The HTML stays the only place a number is written down.
@@ -176,14 +176,14 @@ if (statNumbers.length && statsRow && !prefersReducedMotion) {
     requestAnimationFrame(step);
   }
 
-  // Watch the numbers row, not the whole section. The -30% bottom margin means
-  // the bottom 30% of the screen doesn't count as "in view", so counting starts
-  // once the top of the numbers row is above the 70%-down mark on screen.
+  // Watch the numbers row, not the whole section. The -10% bottom margin means
+  // the bottom 10% of the screen doesn't count as "in view", so counting starts
+  // as soon as the numbers have come a little way up onto the screen.
   const statsObserver = new IntersectionObserver(([entry], observer) => {
     if (!entry.isIntersecting) return;
     observer.disconnect();   // run once only
     countUp();
-  }, { rootMargin: '0px 0px -30% 0px' });
+  }, { rootMargin: '0px 0px -10% 0px' });
 
   statsObserver.observe(statsRow);
 }
