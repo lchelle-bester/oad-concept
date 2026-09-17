@@ -78,11 +78,17 @@ window.matchMedia('(min-width: 1025px)').addEventListener('change', (event) => {
 
 /* =========================================
    HERO VIDEO
-   Only load the video when it's a good idea:
-   - not on small screens (saves mobile data)
-   - not if the person has asked their device to reduce motion
-   - not if their browser is in data-saver mode
-   Otherwise, the poster image stays on screen.
+   Two separate decisions, in this order:
+
+   1. WHICH FILES? A portrait video for phones, a landscape one for
+      wider screens. index.html names the portrait files, so a phone is
+      already correct before this file runs; only wider screens swap.
+      This happens even when no video will play, because the poster
+      still has to match the shape of the screen.
+
+   2. PLAY IT AT ALL? Not if the person has asked their device to reduce
+      motion, not in data-saver mode, and not on a slow connection.
+      In those cases the poster stays on screen and nothing downloads.
    ========================================= */
 
 const video = document.querySelector('.hero-video');
@@ -90,27 +96,42 @@ const sky = document.querySelector('.sky');
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isSmallScreen = window.matchMedia('(max-width: 720px)').matches;
-const saveData = navigator.connection && navigator.connection.saveData;
 
-if (video && !prefersReducedMotion && !isSmallScreen && !saveData) {
+// navigator.connection doesn't exist in every browser (Safari, for one),
+// so check it exists before reading anything off it.
+const connection = navigator.connection;
+const saveData = Boolean(connection && connection.saveData);
+const slowConnection = Boolean(
+  connection && ['slow-2g', '2g', '3g'].includes(connection.effectiveType)
+);
 
-  // 1. Give the video its file and start it
-  video.src = video.dataset.src;
-  video.play().catch(() => {
-    // If the browser blocks autoplay, nothing breaks: the poster stays visible
-  });
+if (video) {
 
-  // 2. Pause automatically once the whole sky area (hero + impact numbers) is
-  //    scrolled out of view (saves battery), and resume when it comes back
-  const observer = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  });
+  // 1. Wider screens get the landscape poster in place of the portrait one
+  if (!isSmallScreen) {
+    video.poster = video.dataset.posterWide;
+  }
 
-  observer.observe(sky);
+  if (!prefersReducedMotion && !saveData && !slowConnection) {
+
+    // 2. Give the video the file that matches this screen, and start it
+    video.src = isSmallScreen ? video.dataset.src : video.dataset.srcWide;
+    video.play().catch(() => {
+      // If the browser blocks autoplay, nothing breaks: the poster stays visible
+    });
+
+    // 3. Pause automatically once the whole sky area (hero + impact numbers) is
+    //    scrolled out of view (saves battery), and resume when it comes back
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
+    observer.observe(sky);
+  }
 }
 
 

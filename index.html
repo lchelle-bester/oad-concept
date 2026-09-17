@@ -102,8 +102,12 @@
     <div class="sky">
 
       <!-- The video layer. The video starts empty on purpose: js/main.js only
-           adds the video file on screens where it makes sense (see that file).
-           Everyone else sees the poster image. -->
+           adds the video file on screens where it makes sense, and picks the
+           portrait or the landscape file to match (see that file).
+           Everyone else sees the poster image.
+           The poster and data-src here are the small portrait files: phones are
+           the most data-sensitive, so they get the right files without waiting
+           for JavaScript. The -wide files are swapped in above 720px. -->
       <div class="sky-media">
         <video
           class="hero-video"
@@ -111,8 +115,10 @@
           loop
           playsinline
           preload="none"
-          poster="assets/video/milky-way-poster.jpg"
-          data-src="assets/video/milky-way.mp4"
+          poster="assets/video/milky-way-mobile-poster.jpg"
+          data-src="assets/video/milky-way-mobile.mp4"
+          data-poster-wide="assets/video/milky-way-poster.jpg"
+          data-src-wide="assets/video/milky-way.mp4"
           aria-hidden="true">
         </video>
       </div>
