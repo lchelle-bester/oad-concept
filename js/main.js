@@ -187,3 +187,43 @@ if (statNumbers.length && statsRow && !prefersReducedMotion) {
 
   statsObserver.observe(statsRow);
 }
+
+
+/* =========================================
+   NEWSLETTER CONCEPT
+   This form is deliberately non-functional: it demonstrates the interaction
+   without sending or collecting an email address.
+   ========================================= */
+
+const newsletterForm = document.querySelector('.newsletter-form');
+const newsletterMessage = document.querySelector('.newsletter-message');
+
+if (newsletterForm && newsletterMessage) {
+  newsletterForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    newsletterMessage.innerHTML = 'This is a design concept. To subscribe, visit <a href="https://astro4dev.org/contactus/emaillists/">OAD\'s mailing list page.</a>';
+  });
+}
+
+const siteFooter = document.querySelector('.site-footer');
+const footerTop = document.querySelector('.footer-top');
+
+if (siteFooter && footerTop) {
+  function updateFooterArrow() {
+    const footerBounds = siteFooter.getBoundingClientRect();
+    const visibleTop = Math.max(0, footerBounds.top);
+    const visibleBottom = Math.min(window.innerHeight, footerBounds.bottom);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const isFortyPercentVisible = visibleHeight >= footerBounds.height * 0.4;
+
+    footerTop.classList.toggle('is-visible', isFortyPercentVisible);
+  }
+
+  const footerObserver = new IntersectionObserver(updateFooterArrow, { threshold: [0, 0.4] });
+
+  footerObserver.observe(siteFooter);
+  window.addEventListener('scroll', updateFooterArrow, { passive: true });
+  window.addEventListener('resize', updateFooterArrow);
+  window.setInterval(updateFooterArrow, 100);
+  updateFooterArrow();
+}

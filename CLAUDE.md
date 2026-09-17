@@ -104,15 +104,20 @@ Full-size source photos live in `C:\dev\oad-concept\originals\`, outside the web
 
 **What we do** (done)
 - `id="work"`, directly after the sky, solid `--color-bg`. Heading "What we do" + one-line intro, then three flagship cards in a `<ul class="cards">`, in this order: Astrotourism, Astronomy for Skills (middle), Astronomy for Mental Health. Each links to its programme site. Heading and intro stay on the hero's left line; the card row is capped at 72rem and centred (`margin-inline: auto`).
-- Card: photo on top (`aspect-ratio: 4 / 3`, `object-fit: cover` crops the 3:2 photos), then h3 name, tagline in the card's text colour, body text in `--color-text-soft`, "Explore →" pushed to the bottom with `margin-top: auto` so it lines up across cards. 3px top border in the card's line colour, 1rem corners, `--color-surface` background.
+- Card: photo on top (`aspect-ratio: 4 / 3`, `object-fit: cover` crops the 3:2 photos), then h3 name, tagline in the card's text colour, body text in `--color-text-soft`, "Learn more →" pushed to the bottom with `margin-top: auto` so it lines up across cards. 3px top border in the card's line colour, 1rem corners, `--color-surface` background.
 - Colour-coding: each `<li>` has a class (`card-astrotourism`, `card-mental-health`, `card-skills`) that sets `--card-line` and `--card-text`; everything inside reads those two variables.
-- Stretched link: only the h3 contains a real `<a class="card-link">`. Its `::after` is `position: absolute; inset: 0`, filling the card (`position: relative`), so the whole card is clickable while screen readers hear just the programme name. "Explore →" is `aria-hidden`. Keyboard focus outlines the whole card with `.card:has(.card-link:focus-visible)`.
+- Stretched link: only the h3 contains a real `<a class="card-link">`. Its `::after` is `position: absolute; inset: 0`, filling the card (`position: relative`), so the whole card is clickable while screen readers hear just the programme name. "Learn more →" is `aria-hidden`. Keyboard focus outlines the whole card with `.card:has(.card-link:focus-visible)`.
 - Hover: photo `scale(1.04)` over 0.6 s and card to `--color-surface-hover`. Under `prefers-reduced-motion` the zoom is off; the colour change stays.
 - Images: `width="1200" height="800"`, `loading="lazy"`, descriptive alt text.
-- Orbit doodle (desktop): inline `<svg class="work-orbits">` behind `.work-content`, `viewBox="0 0 2560 1060"`, `preserveAspectRatio="xMidYMin slice"` (anchored in the middle because the card row is centred). One solid and one dashed line, white at 14%, 1.5px with `vector-effect="non-scaling-stroke"` on each path (it isn't inherited). The dashed line starts at a green dot above the cards, sweeps down through the card row and leaves through the left side; the solid line crosses from the left side, rises through the row and leaves through the right side. Neither line touches the top edge next to the impact section.
-- Dots (4px radius), all in the open space above the cards: green (start of the dashed line, links to the logo's green), amber and purple-light further along the dashed line, navy-light on the solid line.
+- Orbit doodle (desktop): inline `<svg class="work-orbits">` behind `.work-content`, `viewBox="0 0 2560 1060"`, `preserveAspectRatio="xMidYMin slice"` (anchored in the middle because the card row is centred). Three lines (two dashed, one solid), white at 14%, 1.5px with `vector-effect="non-scaling-stroke"` on each path (it isn't inherited). All run side to side:
+  1. Dashed, in from the top right, dips into the gap between the second and third cards, behind the cards, out the left side.
+  2. Dashed, in from the left, arcs just over the top of the first card, dips through both gaps, out the right side at about mid-card height.
+  3. Solid, in low from the left, sags to its lowest point under the second gap, rises steeply behind the third card and out the right side.
+  No line touches the top edge next to the impact section. Lines 2 and 3 were traced from my sketch over a screenshot. (A fourth solid line rising from bottom-left to top-right was removed: three is enough.)
+- Dots (4px radius): green (the logo's green), amber and purple-light spread along line 1 above the cards, about 100–145px apart. Two more to the right of the cards: navy-light on line 2, green on line 3. Three to the left of the cards, one per line: amber on line 2, navy-light on line 3, purple-light on line 1. The side dots sit at viewBox x 1990 (right) and 570 (left), the same distance from the centre, so they clear the outer cards even in short windows. They only show where there's room beside the cards (about 1400px wide and up; off screen at 1280).
+- The drawing's scale follows the section's height, and it scales from the middle, so in a short window everything is pulled towards the centre. Right-hand dots at x 1910 ended up 4px from the third card at 1519×693 (invisible against its edge). Always test a short window too.
 - Because the drawing is centred but the heading and intro are on the left, the text's position *in the drawing* moves with screen width. Lines and dots must stay clear of the whole top-left band the text can occupy at any width (roughly viewBox x 0–1380, y 80–280).
-- Checked in headless Chrome at 1100×900, 1280×800, 1536×730, 1920×1080 and 2560×1440: every dot visible (not under a card, not off screen) and at least ~59px above the cards; no line point within 12px of the heading or intro text; no line within 65px of the section top. If you move the lines or dots, re-run that check.
+- Checked in headless Chrome at 1280×800, 1519×693 (my browser), 1536×864, 1920×1080 and 2560×1440: dots above the cards visible and at least ~53px above them; side dots at least 78px clear of the outer cards where they're on screen; every dot exactly on its line; no line point within 12px of the heading or intro text; no line within 85px of the section top. If you move the lines or dots, re-run that check.
 - 1024px and below: SVG hidden; cards in one column, `max-width: 34rem`, `gap: 4rem`. Each `.card-item + .card-item` draws a dashed vertical thread up through the gap (`::before`) and a 7px dot in its own card's colour (`::after`). The thread is on the `<li>`, not the card, because the card's `overflow: hidden` would clip it.
 
 ## Decisions log
@@ -136,9 +141,19 @@ Full-size source photos live in `C:\dev\oad-concept\originals\`, outside the web
 - Doodle dots go in the open space above the cards, not in the 32px gaps: the gaps move whenever the cards resize, but the space above them is clear at every desktop width.
 - Wide `viewBox` anchored in the middle (`xMidYMin slice`) rather than one matching the section: the card row stops growing at 72rem and is centred, so the drawing scales with the section's height (about 1:1) and stays lined up with the cards. (Was `xMinYMin` while the cards were left-aligned.)
 - Card order: Astrotourism, Astronomy for Skills, Astronomy for Mental Health (my choice). The nav keeps the official flagship numbers (Skills is still "Flagship 3").
-- Orbit lines shouldn't start or stop at a section edge for no reason: the dashed line starts at a green dot (the logo's green), and both lines leave through the sides.
+- Orbit lines come from and go to the sides of the section (or could emerge from a card), never from the top edge or from a dot floating in empty space (my choice: a line starting at a dot looked random). Dots sit along the lines, spread out rather than bunched.
 - Section uses a solid background: the sky has fully faded out before it.
 - Full-size photo originals kept outside the site folder and out of git.
+- Footer newsletter is intentionally a non-functional concept and never submits data.
+
+**Footer** (done)
+- The footer sits directly on the dark page background: there are no cards or boxed panels anywhere in it.
+- Desktop uses two columns: the newsletter signup on the left and two link-group navs on the right, followed by Contact us and social links. At 1024px and below it becomes one column; the link groups use a compact two-column grid.
+- The newsletter form uses a real screen-reader label, an underline-only input, and an amber Subscribe text button. JavaScript prevents the default submit action and announces a short `aria-live="polite"` message linking to OAD's mailing list page. It does not collect or send email addresses.
+- The full-width partner band uses `#F4F4F6`, has no rounded corners or side margins, and uses the original-colour IAU, NRF/SARAO and DSTI logo files in `assets/images/partners/`.
+- The brand row uses the official white-text OAD logo file `assets/images/OAD logo transparent white.png` without recolouring or redrawing it.
+- The footer has no orbit decoration. A bordered arrow back-to-top control is fixed to the viewport only after 40% of the footer is visible; it is hidden everywhere else.
+- The bottom row contains the 2026 copyright and IAU Code of Conduct link.
 
 ## Known gotchas
 
@@ -166,7 +181,7 @@ Full-size source photos live in `C:\dev\oad-concept\originals\`, outside the web
 4. **Stories** — real people and quotes from the annual report. Get OAD's confirmation of consent before using named people or photos. The page warms towards amber here.
 5. **What's next** — Innovation Hub and Research Institute.
 6. **Get involved** — apply, partner, subscribe.
-7. **Footer** — full official logo, links, media credits.
+7. **Footer** (done) — newsletter concept, grouped links, contact and social links, brand row, partner band and utility links.
 
 ## Later ideas
 

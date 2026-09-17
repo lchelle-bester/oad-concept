@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IAU Office of Astronomy for Development</title>
   <meta name="description" content="The OAD uses astronomy as a tool for sustainable development around the world.">
+  <meta name="robots" content="noindex, nofollow">
 
   <!-- Fonts from Google Fonts: Outfit (text) and Space Grotesk (headline) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body id="top">
 
   <!-- HEADER: sits on top of the hero, transparent background -->
   <header class="site-header">
@@ -189,17 +190,27 @@
            The viewBox is very wide and anchored in the middle (xMidYMin) because the
            card row is centred at a fixed maximum width: this keeps the drawing lined up
            with the cards at every desktop width.
-           The dashed orbit starts at the green dot and leaves through the left side;
-           the solid one crosses from the left side to the right side. -->
+           All three orbits run from side to side:
+           1. dashed: in from the right, dips into the second gap, out the left side
+           2. dashed: in from the left, arcs over the first card, down through both gaps, out the right
+           3. solid: in low from the left, sags under the second gap, rises steeply out the right -->
       <svg class="work-orbits" viewBox="0 0 2560 1060" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
         <g fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.5">
-          <path d="M -60 900 C 800 800 1300 150 2620 90" vector-effect="non-scaling-stroke" />
-          <path d="M 1560 70 C 1450 400 1150 820 -60 1010" stroke-dasharray="6 8" vector-effect="non-scaling-stroke" />
+          <path d="M 2620 150 C 2000 40 1650 80 1480 330 C 1350 520 800 880 -60 1010" stroke-dasharray="6 8" vector-effect="non-scaling-stroke" />
+          <path d="M -60 620 C 300 580 600 300 890 283 C 1000 277 1300 400 1477 450 C 1654 500 1900 660 2620 760" stroke-dasharray="6 8" vector-effect="non-scaling-stroke" />
+          <path d="M -60 380 C 400 480 800 620 1087 745 C 1288 832 1600 820 1861 484 C 1991 317 2200 260 2620 200" vector-effect="non-scaling-stroke" />
         </g>
-        <circle cx="1560" cy="70" r="4" fill="#54A030" />
-        <circle cx="1538" cy="130" r="4" fill="#E4A818" />
-        <circle cx="1501" cy="213" r="4" fill="#B49DC6" />
-        <circle cx="1795" cy="219" r="4" fill="#8F95D6" />
+        <circle cx="1806" cy="119" r="4" fill="#54A030" />
+        <circle cx="1667" cy="168" r="4" fill="#E4A818" />
+        <circle cx="1576" cy="226" r="4" fill="#B49DC6" />
+        <!-- dots on the right-hand stretches of lines 2 and 3, far enough out to clear
+             the third card even when a short window shrinks the drawing -->
+        <circle cx="1990" cy="631" r="4" fill="#8F95D6" />
+        <circle cx="1990" cy="368" r="4" fill="#54A030" />
+        <!-- dots left of the first card, one per line, mirroring the right-hand ones -->
+        <circle cx="570" cy="380" r="4" fill="#E4A818" />
+        <circle cx="570" cy="550" r="4" fill="#8F95D6" />
+        <circle cx="570" cy="861" r="4" fill="#B49DC6" />
       </svg>
 
       <div class="work-content">
@@ -220,7 +231,7 @@
                 <p class="card-text">
                   Around 8 in 10 people live under light-polluted skies and can no longer see the Milky Way. We help communities turn dark skies into tourism that creates jobs and celebrates local culture.
                 </p>
-                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+                <p class="card-explore" aria-hidden="true">Learn more <span class="card-arrow">→</span></p>
               </div>
             </article>
           </li>
@@ -236,7 +247,7 @@
                 <p class="card-text">
                   Through hackathons, workshops and training, we teach programming, data science and machine learning that open pathways to careers in many fields.
                 </p>
-                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+                <p class="card-explore" aria-hidden="true">Learn more <span class="card-arrow">→</span></p>
               </div>
             </article>
           </li>
@@ -252,7 +263,7 @@
                 <p class="card-text">
                   Together with mental health professionals and researchers, we're exploring how the night sky, free and open to everyone, can support wellbeing alongside traditional care.
                 </p>
-                <p class="card-explore" aria-hidden="true">Explore <span class="card-arrow">→</span></p>
+                <p class="card-explore" aria-hidden="true">Learn more <span class="card-arrow">→</span></p>
               </div>
             </article>
           </li>
@@ -261,6 +272,103 @@
 
     </section>
   </main>
+
+  <!-- FOOTER: direct content on the dark background, with one full-width partner band. -->
+  <footer class="site-footer">
+    <div class="footer-main">
+      <section class="footer-signup" aria-labelledby="footer-signup-heading">
+        <h2 id="footer-signup-heading">Help us use astronomy for a better world</h2>
+        <p>Get news about projects, events and funding calls.</p>
+
+        <form class="newsletter-form">
+          <label class="sr-only" for="newsletter-email">Your email address</label>
+          <div class="newsletter-fields">
+            <input id="newsletter-email" name="email" type="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+          </div>
+          <p class="newsletter-message" aria-live="polite"></p>
+        </form>
+
+        <p class="funding-prompt">Have a project idea? <a href="https://astro4dev.org/cfp/">Apply for funding</a></p>
+      </section>
+
+      <div class="footer-links">
+        <div class="footer-link-groups">
+          <nav aria-label="Get involved">
+            <h3>Get involved</h3>
+            <ul>
+              <li><a href="https://astro4dev.org/cfp/">Apply for funding</a></li>
+              <li><a href="mailto:info@astro4dev.org">Volunteer</a></li>
+              <li><a href="https://astro4dev.org/category/events/">Events</a></li>
+              <li><a href="https://astro4dev.org/funded-projects/information-for-funded-projects/">For funded projects</a></li>
+            </ul>
+          </nav>
+
+          <nav aria-label="Explore">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="https://astro4dev.org/projects-search/">Projects funded</a></li>
+              <li><a href="https://astro4dev.org/projects-impact/">Our impact</a></li>
+              <li><a href="https://astro4dev.org/regions/">Regional offices</a></li>
+              <li><a href="https://astro4dev.org/aboutiauoad/">About us</a></li>
+            </ul>
+          </nav>
+
+        </div>
+
+        <div class="footer-contact">
+          <a class="footer-contact-link" href="https://astro4dev.org/contactus/">Contact us</a>
+          <a class="footer-email" href="mailto:info@astro4dev.org">info@astro4dev.org</a>
+          <div class="social-links" aria-label="Social media">
+            <a href="https://www.facebook.com/astro4dev/" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2V5.5h-2c-2.2 0-3.5 1.3-3.5 3.7V11H8v2.5h2.5V19H13v-5.5h2.3L15.7 11H13V9.5c0-.9.3-1.5 1-1.5Z" fill="currentColor" /></svg>
+            </a>
+            <a href="https://www.instagram.com/iau_oad/" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.7" /><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7" /><circle cx="17.3" cy="6.8" r="1" fill="currentColor" /></svg>
+            </a>
+            <a href="https://www.tiktok.com/@iau_oad" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.2c.5 1.8 1.5 2.9 3.3 3.2v2.6c-1.2-.1-2.3-.5-3.3-1.2v4.7a4.5 4.5 0 1 1-3.7-4.4v2.7a1.9 1.9 0 1 0 1.1 1.7V5.2h2.6Z" fill="currentColor" /></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/iau-office-for-astronomy-for-development" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 8.2A1.6 1.6 0 1 0 6.2 5a1.6 1.6 0 0 0 0 3.2ZM4.8 19h2.8v-8.5H4.8V19Zm4.6 0h2.8v-4.7c0-1.2.2-2.4 1.8-2.4 1.5 0 1.5 1.4 1.5 2.5V19h2.8v-5.2c0-2.6-.6-4.6-3.7-4.6-1.5 0-2.5.8-2.9 1.5h-.1v-1.2H9.4V19Z" fill="currentColor" /></svg>
+            </a>
+            <a href="https://www.youtube.com/@astro4dev" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8.3a2.5 2.5 0 0 0-1.8-1.8C16.6 6 12 6 12 6s-4.6 0-6.2.5A2.5 2.5 0 0 0 4 8.3 26 26 0 0 0 3.6 12c0 1.3.1 2.6.4 3.7a2.5 2.5 0 0 0 1.8 1.8c1.6.5 6.2.5 6.2.5s4.6 0 6.2-.5a2.5 2.5 0 0 0 1.8-1.8c.3-1.1.4-2.4.4-3.7s-.1-2.6-.4-3.7ZM10.5 15.1V8.9l5.2 3.1-5.2 3.1Z" fill="currentColor" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-brand">
+      <div class="brand-lockup">
+        <img src="assets/images/OAD logo transparent white.png" alt="International Astronomical Union Office of Astronomy for Development logo" width="160" height="160">
+        <p>A joint project of the International Astronomical Union and South Africa's National Research Foundation, with the support of the Department of Science, Technology and Innovation.</p>
+      </div>
+    </div>
+
+    <div class="partner-band">
+      <div class="partner-content">
+        <p class="partner-label">Our partners</p>
+        <div class="partner-logos">
+          <img src="assets/images/partners/IAU logo.png" alt="International Astronomical Union logo" width="164" height="100">
+          <img src="assets/images/partners/NRF_SARAO logo.png" alt="South African Radio Astronomy Observatory logo" width="250" height="100">
+          <img src="assets/images/partners/Science, tech, innv logo.png" alt="Department of Science, Technology and Innovation logo" width="320" height="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 IAU Office of Astronomy for Development</p>
+      <p class="footer-attribution">An independent concept redesign by L'chelle Bester. Not affiliated with, or endorsed by, the IAU Office of Astronomy for Development.</p>
+      <nav aria-label="Footer utilities">
+        <a href="https://www.iau.org/Iau/About/Statutes---Rules/Code-of-Conduct.aspx">IAU Code of Conduct</a>
+      </nav>
+      <a class="footer-top" href="#top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </a>
+    </div>
+  </footer>
 
   <!-- JavaScript goes last, so the page content loads first -->
   <script src="js/main.js" defer></script>
