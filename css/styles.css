@@ -300,7 +300,7 @@ a {
    ========================================= */
 .impact {
   position: relative;
-  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(3.5rem, 5vh, 4rem);
+  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(8rem, 18vh, 12rem);
 }
 
 /* Darkens the video behind the numbers. Its top edge must match the bottom
@@ -911,7 +911,34 @@ a {
 
 
 /* =========================================
-   10. TABLETS AND PHONES
+   10. DESKTOP
+   Rules inside here only apply above 1024px, so phones
+   and tablets keep the spacing they already had.
+   ========================================= */
+@media (min-width: 1025px) {
+
+  /* Close the gap between the impact numbers and What we do. On a tall desktop
+     window the two stacked paddings grew to over 300px of empty space.
+     Only .impact changes: .work's top padding sets the scale of the orbit
+     doodle (see section 7), so touching it shrinks every line and dot. */
+  .impact {
+    padding-bottom: clamp(5rem, 9vh, 7rem);
+  }
+
+  /* The fade is anchored to the BOTTOM of the sky, so how far up it reaches is
+     its height minus the padding above. Shortening the padding alone would pull
+     the fade up over the numbers and dissolve the sky too early, so the fade
+     comes down by the same amount and keeps its ~32px of clear space below the
+     numbers. The impact overlay has already darkened the sky to 86% here, so
+     there is only a little starfield left for this to take out. */
+  .sky-fade {
+    height: clamp(3rem, 5.5vh, 4.5rem);
+  }
+}
+
+
+/* =========================================
+   11. TABLETS AND PHONES
    Rules inside here only apply when the screen
    is 1024px wide or less. The full navigation
    no longer fits, so it becomes a menu.
