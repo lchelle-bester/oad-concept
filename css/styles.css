@@ -187,7 +187,13 @@ a {
 .sky-media {
   position: sticky;
   top: 0;
+  /* lvh = the tallest the viewport can ever be, i.e. with the phone's address
+     bar hidden. Plain 100vh can resolve to the shorter "bar showing" height,
+     and then the sky stops short of the bottom of the screen the moment the
+     bar slides away. 100vh stays first as a fallback for older browsers.
+     Must always match .sky-content's negative margin below. */
   height: 100vh;
+  height: 100lvh;
   overflow: hidden;   /* clips the video to one screenful */
   z-index: 0;
   background-color: var(--color-bg);   /* what you see before the poster loads */
@@ -200,6 +206,7 @@ a {
   position: relative;
   z-index: 2;
   margin-top: -100vh;
+  margin-top: -100lvh;
 }
 
 /* Fades the sky into the solid page background at the end of the last
@@ -293,7 +300,7 @@ a {
    ========================================= */
 .impact {
   position: relative;
-  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(8rem, 18vh, 12rem);
+  padding: clamp(5rem, 12vh, 8rem) var(--space-page) clamp(3.5rem, 5vh, 4rem);
 }
 
 /* Darkens the video behind the numbers. Its top edge must match the bottom
