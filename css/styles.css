@@ -307,7 +307,12 @@ a {
    edge of the hero overlay exactly, or you see a change in brightness there:
    1. the hero's bottom-left shadow, mirrored: same shape, anchored at the
       top-left instead, so it carries on across the join and fades out below
-   2. an even darkening that starts at the hero's bottom darkness (0.6)
+   2. an even darkening that starts at the hero's bottom darkness (0.6) and
+      settles at 0.66, so about a third of the starfield stays visible behind
+      the numbers. It used to reach 0.86, which left only 14% and read as an
+      empty dark band. Dissolving the sky is .sky-fade's job, not this one's;
+      white numbers measure 13:1 and the soft labels 8.7:1 at 0.66, so there
+      is plenty of contrast headroom.
    inset: 0, not -1px: .impact doesn't clip its overflow like .hero does, so a
    bigger overlay would stack on the hero's bottom edge (a dark line) and
    stick out past the right edge (a horizontal scrollbar). */
@@ -317,7 +322,7 @@ a {
   z-index: 0;
   background:
     radial-gradient(ellipse 75% 80% at 0% 0%, rgba(7, 8, 24, 0.9) 0%, rgba(7, 8, 24, 0.55) 45%, transparent 100%),
-    linear-gradient(to bottom, rgba(7, 8, 24, 0.6) 0%, rgba(7, 8, 24, 0.86) 35%, rgba(7, 8, 24, 0.86) 100%);
+    linear-gradient(to bottom, rgba(7, 8, 24, 0.6) 0%, rgba(7, 8, 24, 0.66) 35%, rgba(7, 8, 24, 0.66) 100%);
 }
 
 .impact-content {
@@ -931,8 +936,38 @@ a {
      comes down by the same amount and keeps its ~32px of clear space below the
      numbers. The impact overlay has already darkened the sky to 86% here, so
      there is only a little starfield left for this to take out. */
+  /* How soft a fade looks is simply how many pixels it gets to travel from
+     "stars visible" to "solid colour". With only the ~80px below the numbers
+     to work in, the change was about 1.8% opacity per pixel and the eye
+     caught it. So the fade now starts high enough to cross the numbers
+     themselves, on a curve so shallow at the top that it reads as the sky
+     settling rather than a fade switching on: about 2% opacity at the top of
+     the numbers, 37% at the bottom of them, full background below.
+
+     That stretches the travel to roughly 180px and halves the steepest
+     change to about 0.8% per pixel. The many stops are the point: a
+     gradient with two stops ramps in a straight line and shows a knee at
+     each end, so these trace an ease instead. It sits behind .sky-content
+     (z-index 1 against 2), so it only ever dims the video, never the text,
+     and the extra darkness at the bottom of the block raises text contrast
+     rather than lowering it. */
   .sky-fade {
-    height: clamp(3rem, 5.5vh, 4.5rem);
+    height: clamp(16rem, 36vh, 26rem);
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(7, 8, 24, 0.02) 20%,
+      rgba(7, 8, 24, 0.06) 32%,
+      rgba(7, 8, 24, 0.12) 44%,
+      rgba(7, 8, 24, 0.20) 55%,
+      rgba(7, 8, 24, 0.30) 64%,
+      rgba(7, 8, 24, 0.42) 72%,
+      rgba(7, 8, 24, 0.55) 79%,
+      rgba(7, 8, 24, 0.69) 86%,
+      rgba(7, 8, 24, 0.83) 92%,
+      rgba(7, 8, 24, 0.93) 97%,
+      var(--color-bg) 100%
+    );
   }
 }
 
